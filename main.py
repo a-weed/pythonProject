@@ -13,39 +13,38 @@ style.use('ggplot')
 quandl.ApiConfig.api_key = 'U8bAyuBxWfoTb1LeVLGR'
 
 df = quandl.get('EOD/MSFT')
-
 df = df[['Adj_Open','Adj_High','Adj_Low','Adj_Close','Adj_Volume',]]
 df["HL_PCT"] = (df['Adj_High'] - df['Adj_Low']) / df['Adj_Low'] * 100.0
 df["PCT_change"] = (df['Adj_Low'] - df['Adj_High']) / df['Adj_High'] * 100.0
 
 #try your own features here
-df["Volat_PCT_Daily"] = (df['Adj_Open'] - df['Adj_Close']) / df['Adj_Close'] * 100.0
 
-df = df[['Adj_Close','HL_PCT','PCT_change','Volat_PCT_Daily','Adj_Volume']]
+df = df[['Adj_Close','HL_PCT','PCT_change','Adj_Volume']]
 
 forecast_col = 'Adj_Close'
 df.fillna(-99999, inplace=True)
 print(df)
 
-forecast_out = int(math.ceil(0.01*len(df)))
+forecast_out = int(math.ceil(0.1*len(df)))
 
 df['label'] = df[forecast_col].shift(-forecast_out)
 
 
 X = np.array(df.drop(['label'],1))
 X = preprocessing.scale(X)
-X = X[:-forecast_out]
 X_lately = X[-forecast_out:]
+X = X[:-forecast_out]
+
 
 df.dropna(inplace=True)
 y = np.array(df['label'])
 
 X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.2)
 
-# clf = LinearRegression(n_jobs=-1)
-# clf.fit(X_train, y_train)
-# with open('linearregression.pickle', 'wb') as f:
-#     pickle.dump(clf, f)
+clf = LinearRegression(n_jobs=-1)
+clf.fit(X_train, y_train)
+with open('linearregression.pickle', 'wb') as f:
+    pickle.dump(clf, f)
 
 pickle_in = open('linearregression.pickle', 'rb')
 clf = pickle.load(pickle_in)
