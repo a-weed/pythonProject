@@ -6,10 +6,6 @@ import random
 
 style.use('fivethirtyeight')
 
-
-# xs = np.array([1,2,3,4,5,6], dtype=np.float64)
-# ys = np.array([5,4,6,5,6,7], dtype=np.float64)
-
 def createDataset(hm, variance, step=2, correlation=False):
     val = 1
     ys = []
@@ -39,8 +35,6 @@ def coefficientOfDetermination(ysOrig, ysLine):
     return 1 - (squaredErrorRegr/squaredErrorYMean)
 
 xs, ys = createDataset(40,80,2,correlation=False)
-
-
 m, b = bestFitSlopeAndIntercept(xs,ys)
 
 regressionLine = [(m*x) + b for x in xs]
