@@ -1,4 +1,4 @@
 Watch: Matplotlib fun visual stuff
 	Pandas Data analysis file handling is your weakpoint
 	ML endless potential if you get the basics ^^
-Go through atom welcome guide, start using that on linux? Pycharm for Windows?
+om welcome guide, start using that on linux? Pycharm for Windows?
